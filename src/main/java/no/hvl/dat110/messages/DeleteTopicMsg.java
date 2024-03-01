@@ -12,7 +12,7 @@ public class DeleteTopicMsg extends Message {
     // Constructor
     public DeleteTopicMsg(String user, String topic) {
         super(MessageType.DELETETOPIC, user);
-        this.topic=topic;
+        this.topic = topic;
     }
 
     // TODO:
@@ -23,10 +23,12 @@ public class DeleteTopicMsg extends Message {
     public String getTopic() {
         return topic;
     }
+
     // set-metode
     public void setTopic(String topic) {
         this.topic = topic;
     }
+
     // toString-metode
     @Override
     public String toString() {

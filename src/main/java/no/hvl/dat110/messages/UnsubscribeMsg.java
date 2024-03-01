@@ -17,13 +17,15 @@ public class UnsubscribeMsg extends Message {
     //constructor
     public UnsubscribeMsg(String user, String topic) {
         super(MessageType.UNSUBSCRIBE, user);
-        this.topic=topic;
+        this.topic = topic;
     }
+
     //get-method
     public String getTopic() {
 
         return topic;
     }
+
     //set-method
     public void setTopic(String topic) {
 

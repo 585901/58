@@ -2,18 +2,19 @@ package no.hvl.dat110.messages;
 
 public class SubscribeMsg extends Message {
 
-	// message sent from client to subscribe on a topic
+    // message sent from client to subscribe on a topic
     private String topic;
 
     public SubscribeMsg(String user, String topic) {
         super(MessageType.SUBSCRIBE, user);
-        this.topic=topic;
+        this.topic = topic;
     }
 
     //get-method
     public String getTopic() {
         return topic;
     }
+
     //set-method
     public void setTopic(String topic) {
         this.topic = topic;
@@ -27,10 +28,10 @@ public class SubscribeMsg extends Message {
     }
 
 
-	// TODO:
-	// Implement object variables - a topic is required
+    // TODO:
+    // Implement object variables - a topic is required
 
-	// Complete the constructor, get/set-methods, and toString method
-	// as described in the project text
-		
+    // Complete the constructor, get/set-methods, and toString method
+    // as described in the project text
+
 }

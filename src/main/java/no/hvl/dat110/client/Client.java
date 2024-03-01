@@ -6,93 +6,93 @@ import no.hvl.dat110.messagetransport.MessagingClient;
 
 public class Client extends Thread {
 
-	private MessagingClient client;
-	private Connection connection;
-	private String user;
+    private MessagingClient client;
+    private Connection connection;
+    private String user;
 
-	public Client(String user, String server, int port) {
-		client = new MessagingClient(server, port);
-		this.user = user;
-	}
+    public Client(String user, String server, int port) {
+        client = new MessagingClient(server, port);
+        this.user = user;
+    }
 
-	private void send(Message msg) {
+    private void send(Message msg) {
 
-		connection.send(MessageUtils.toTransportMessage(msg));
+        connection.send(MessageUtils.toTransportMessage(msg));
 
-	}
+    }
 
-	public Message receive() {
+    public Message receive() {
 
-		return MessageUtils.fromTransportMessage(connection.receive());
+        return MessageUtils.fromTransportMessage(connection.receive());
 
-	}
+    }
 
-	public boolean connect() {
+    public boolean connect() {
 
-		boolean connected = false;
+        boolean connected = false;
 
-		connection = client.connect();
+        connection = client.connect();
 
-		ConnectMsg msg = new ConnectMsg(user);
+        ConnectMsg msg = new ConnectMsg(user);
 
-		if (connection != null) {
+        if (connection != null) {
 
-			send(msg);
-			connected = true;
+            send(msg);
+            connected = true;
 
-		}
+        }
 
-		return connected;
-	}
+        return connected;
+    }
 
-	public void disconnect() {
+    public void disconnect() {
 
-		DisconnectMsg msg = new DisconnectMsg(user);
+        DisconnectMsg msg = new DisconnectMsg(user);
 
-		send(msg);
+        send(msg);
 
-		connection.close();
+        connection.close();
 
-	}
+    }
 
-	public void subscribe(String topic) {
+    public void subscribe(String topic) {
 
-		SubscribeMsg msg = new SubscribeMsg(user, topic);
+        SubscribeMsg msg = new SubscribeMsg(user, topic);
 
-		send(msg);
+        send(msg);
 
-	}
+    }
 
-	public void unsubscribe(String topic) {
+    public void unsubscribe(String topic) {
 
-		UnsubscribeMsg msg = new UnsubscribeMsg(user, topic);
+        UnsubscribeMsg msg = new UnsubscribeMsg(user, topic);
 
-		send(msg);
+        send(msg);
 
-	}
+    }
 
-	public void publish(String topic, String message) {
+    public void publish(String topic, String message) {
 
-		PublishMsg msg = new PublishMsg(user, topic, message);
+        PublishMsg msg = new PublishMsg(user, topic, message);
 
-		send(msg);
+        send(msg);
 
-	}
+    }
 
-	public void createTopic(String topic) {
+    public void createTopic(String topic) {
 
-		CreateTopicMsg msg = new CreateTopicMsg(user, topic);
+        CreateTopicMsg msg = new CreateTopicMsg(user, topic);
 
-		send(msg);
+        send(msg);
 
-	}
+    }
 
-	public void deleteTopic(String topic) {
+    public void deleteTopic(String topic) {
 
-		DeleteTopicMsg msg = new DeleteTopicMsg(user, topic);
+        DeleteTopicMsg msg = new DeleteTopicMsg(user, topic);
 
-		send(msg);
+        send(msg);
 
-	}
+    }
 
 }
