@@ -49,37 +49,37 @@ public class Dispatcher extends Stopable {
 	public void dispatch(ClientSession client, Message msg) {
 
 		MessageType type = msg.getType();
-
+		//System.out.println(type);
 		// invoke the appropriate handler method
 		switch (type) {
 
-		case DISCONNECT:
-			onDisconnect((DisconnectMsg) msg);
-			break;
+			case DISCONNECT:
+				onDisconnect((DisconnectMsg) msg);
+				break;
 
-		case CREATETOPIC:
-			onCreateTopic((CreateTopicMsg) msg);
-			break;
+			case CREATETOPIC:
+				onCreateTopic((CreateTopicMsg) msg);
+				break;
 
-		case DELETETOPIC:
-			onDeleteTopic((DeleteTopicMsg) msg);
-			break;
+			case DELETETOPIC:
+				onDeleteTopic((DeleteTopicMsg) msg);
+				break;
 
-		case SUBSCRIBE:
-			onSubscribe((SubscribeMsg) msg);
-			break;
+			case SUBSCRIBE:
+				onSubscribe((SubscribeMsg) msg);
+				break;
 
-		case UNSUBSCRIBE:
-			onUnsubscribe((UnsubscribeMsg) msg);
-			break;
+			case UNSUBSCRIBE:
+				onUnsubscribe((UnsubscribeMsg) msg);
+				break;
 
-		case PUBLISH:
-			onPublish((PublishMsg) msg);
-			break;
+			case PUBLISH:
+				onPublish((PublishMsg) msg);
+				break;
 
-		default:
-			Logger.log("broker dispatch - unhandled message type");
-			break;
+			default:
+				Logger.log("broker dispatch - unhandled message type");
+				break;
 
 		}
 	}
@@ -110,10 +110,11 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onCreateTopic:" + msg.toString());
 
-		// TODO: create the topic in the broker storage
+		// TODO:
+		// create the topic in the broker storage
 		// the topic is contained in the create topic message
 
-		throw new UnsupportedOperationException(TODO.method());
+		storage.createTopic(msg.getTopic());
 
 	}
 
@@ -121,20 +122,23 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onDeleteTopic:" + msg.toString());
 
-		// TODO: delete the topic from the broker storage
+		// TODO:
+		// delete the topic from the broker storage
 		// the topic is contained in the delete topic message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		storage.deleteTopic(msg.getTopic());
+
 	}
 
 	public void onSubscribe(SubscribeMsg msg) {
 
 		Logger.log("onSubscribe:" + msg.toString());
 
-		// TODO: subscribe user to the topic
+		// TODO:
+		// subscribe user to the topic
 		// user and topic is contained in the subscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		storage.addSubscriber(msg.getUser(),msg.getTopic());
 
 	}
 
@@ -142,21 +146,28 @@ public class Dispatcher extends Stopable {
 
 		Logger.log("onUnsubscribe:" + msg.toString());
 
-		// TODO: unsubscribe user to the topic
+		// TODO:
+		// unsubscribe user to the topic
 		// user and topic is contained in the unsubscribe message
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		storage.removeSubscriber(msg.getUser(),msg.getTopic());
 	}
 
 	public void onPublish(PublishMsg msg) {
 
 		Logger.log("onPublish:" + msg.toString());
 
-		// TODO: publish the message to clients subscribed to the topic
+		// TODO:
+		// publish the message to clients subscribed to the topic
 		// topic and message is contained in the subscribe message
 		// messages must be sent using the corresponding client session objects
-		
-		throw new UnsupportedOperationException(TODO.method());
+
+		Set<String> subscribers=storage.getSubscribers(msg.getTopic());
+
+		for(String user : subscribers) {
+			storage.getSession(user).send(msg);
+		}
+
 
 	}
 }
